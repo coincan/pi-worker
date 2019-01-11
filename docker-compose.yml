@@ -33,7 +33,7 @@ services:
 
     php-server:
         image: dockercraft/php:7.2
-        container_name: pi-worker-php-server
+        container_name: pi-worker-dev-php-server
         entrypoint:
             - php
         command: "-S 0.0.0.0:8009 -t /var/www/public"
@@ -71,6 +71,14 @@ services:
             ipv4_address: 192.168.33.172
         volumes:
             - .:/var/www
+    mailhog:
+        image: mailhog/mailhog:latest
+        container_name: pi-worker-dev-mailhog
+        networks:
+          devenv:
+            ipv4_address: 192.168.33.25
+        ports:
+          - "8025:8025"
 
 networks:
   devenv:

@@ -23,3 +23,10 @@ Route::get('/job', function () {
 
     return '5 Jobs dispatched!';
 });
+
+
+Route::get('/mail', function () {
+    Illuminate\Support\Facades\Mail::to('example@example.com')->send(new \App\Mail\EchoMail());
+
+    return 'Email send!';
+});
