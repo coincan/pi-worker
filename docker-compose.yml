@@ -1,0 +1,79 @@
+version: '3.1'
+services:
+    php-cli:
+        image: dockercraft/php:7.2
+        container_name: pi-worker-queue-cli
+        entrypoint:
+            - php
+        command: "-v"
+        working_dir: "/var/www"
+        volumes:
+            - .:/var/www
+
+    artisan:
+        image: dockercraft/php:7.2
+        container_name: pi-worker-artisan
+        entrypoint:
+            - php
+            - artisan
+        command: "help"
+        working_dir: "/var/www"
+        volumes:
+            - .:/var/www
+        
+    composer:
+        image: dockercraft/composer
+        container_name: pi-worker-queue-composer
+        entrypoint:
+            - composer
+        command: "-v"
+        working_dir: "/var/www"
+        volumes:
+            - .:/var/www
+
+    php-server:
+        image: dockercraft/php:7.2
+        container_name: pi-worker-php-server
+        entrypoint:
+            - php
+        command: "-S 0.0.0.0:8009 -t /var/www/public"
+        working_dir: "/var/www"
+        networks:
+          devenv:
+            ipv4_address: 192.168.33.72
+        volumes:
+            - .:/var/www
+        ports:
+            - 8009:8009
+
+    queue:
+        image: dockercraft/beanstalkd:1.10
+        container_name: pi-worker-queue
+        networks:
+          devenv:
+            ipv4_address: 192.168.33.110
+        ports: 
+            - 11300:11300
+
+    worker:
+        image: dockercraft/php:7.2
+        depends_on:
+            - queue
+            - php-server
+        container_name: pi-worker-queue-worker
+        entrypoint:
+            - php
+            - artisan
+        command: "queue:work --queue=high,default"
+        working_dir: "/var/www"
+        networks:
+          devenv:
+            ipv4_address: 192.168.33.172
+        volumes:
+            - .:/var/www
+
+networks:
+  devenv:
+    ipam:
+      config:
+        - subnet: 192.168.33.0/24
