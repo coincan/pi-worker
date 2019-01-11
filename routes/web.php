@@ -30,3 +30,11 @@ Route::get('/mail', function () {
 
     return 'Email send!';
 });
+
+
+
+Route::get('/exception', function () {
+    throw new \Exception('echo');
+    return 'Email send!';
+});
+
