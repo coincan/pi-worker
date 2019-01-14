@@ -84,6 +84,25 @@ services:
         ports:
           - "8025:8025"
 
+    nginx-html:
+        image: nginx:1.15.7-alpine
+        container_name: pi-worker-nginx-html
+        volumes:
+        - ./public:/var/www/html:rw
+        - ./provision/nginx/html.conf:/etc/nginx/conf.d/mysite.conf:ro
+        restart: on-failure
+        networks:
+          devenv:
+            ipv4_address: 192.168.33.15
+        ports:
+          - "8115:8115"
+        environment:
+          - PUID="1000"
+          - PGID="1000"
+          - TZ="Australia/Melbourne"
+          - NGINX_HOST=local.test
+          - NGINX_PORT=8115
+
 networks:
   devenv:
     ipam:

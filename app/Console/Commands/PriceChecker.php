@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Contracts\Flag;
 use App\Jobs\PriceResultJob;
 use App\Services\ProductPrice\Flags\Chemist;
+use App\Services\ProductPrice\Flags\Coles;
 use App\Services\ProductPrice\Flags\Wools;
 use Illuminate\Console\Command;
 
@@ -26,7 +27,7 @@ class PriceChecker extends Command
 
     /** @var array $classMap */
     private $classMap = [
-        'coles' => '',
+        'coles' => Coles::class,
         'wools' => Wools::class,
         'chemist' => Chemist::class
     ];
