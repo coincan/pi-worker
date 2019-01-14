@@ -2,7 +2,7 @@ version: '3.1'
 services:
     php-cli:
         image: dockercraft/php:7.2
-        container_name: pi-worker-queue-cli
+        container_name: pi-worker-cli
         entrypoint:
             - php
         command: "-v"
@@ -18,12 +18,15 @@ services:
             - artisan
         command: "help"
         working_dir: "/var/www"
+        networks:
+          devenv:
+            ipv4_address: 192.168.33.57
         volumes:
             - .:/var/www
         
     composer:
         image: dockercraft/composer
-        container_name: pi-worker-queue-composer
+        container_name: pi-worker-composer
         entrypoint:
             - composer
         command: "-v"
@@ -33,7 +36,7 @@ services:
 
     php-server:
         image: dockercraft/php:7.2
-        container_name: pi-worker-dev-php-server
+        container_name: pi-worker-server
         entrypoint:
             - php
         command: "-S 0.0.0.0:8009 -t /var/www/public"
@@ -48,7 +51,7 @@ services:
 
     queue:
         image: dockercraft/beanstalkd:1.10
-        container_name: pi-worker-queue
+        container_name: pi-worker-queue-server
         networks:
           devenv:
             ipv4_address: 192.168.33.110
@@ -56,6 +59,7 @@ services:
             - 11300:11300
 
     worker:
+        restart: always
         image: dockercraft/php:7.2
         depends_on:
             - queue
@@ -64,7 +68,7 @@ services:
         entrypoint:
             - php
             - artisan
-        command: "queue:work --queue=high,default"
+        command: "queue:work --queue=high,default --sleep=1 --tries=3 --daemon"
         working_dir: "/var/www"
         networks:
           devenv:
@@ -73,7 +77,7 @@ services:
             - .:/var/www
     mailhog:
         image: mailhog/mailhog:latest
-        container_name: pi-worker-dev-mailhog
+        container_name: pi-worker-mailhog
         networks:
           devenv:
             ipv4_address: 192.168.33.25
@@ -85,3 +89,5 @@ networks:
     ipam:
       config:
         - subnet: 192.168.33.0/24
+
+
