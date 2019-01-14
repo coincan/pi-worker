@@ -14,7 +14,8 @@
         "laravel/framework": "5.7.*",
         "laravel/tinker": "^1.0",
         "pda/pheanstalk": "^3.2",
-        "sentry/sentry-laravel": "^0.11.0"
+        "sentry/sentry-laravel": "^0.11.0",
+        "nesbot/carbon": "^1.36"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
