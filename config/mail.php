@@ -133,4 +133,21 @@ return [
 
     'log_channel' => env('MAIL_LOG_CHANNEL'),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Log Channel
+    |--------------------------------------------------------------------------
+    |
+    | If you are using the "log" driver, you may specify the logging channel
+    | if you prefer to keep mail messages separate from other log entries
+    | for simpler reading. Otherwise, the default channel will be used.
+    |
+    */
+    'price_checker' => [
+        'result' => [
+            'from' => env('PRICE_MAIL_FROM'),
+            'to' => env('PRICE_MAIL_TO')
+        ]
+    ]
+
 ];
