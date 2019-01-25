@@ -3,7 +3,7 @@
 cd "$(dirname "$0")"
 
 cans down
-git checkout release
+git checkout master
 cans run compoer install
 cans up -d
 
