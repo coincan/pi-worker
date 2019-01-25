@@ -48,17 +48,17 @@ return [
             'flag' => '',
         ],
     ],
-    'coles' => [
-        [
-            'name' => 'NAN stage 2',
-            'path' => 'http://192.168.33.15:8115/nan-stage-2.html',
-            'flag' => '',
-        ],
-        [
-            'name' => 'dettol foam',
-            'path' => 'http://192.168.33.15:8115/dettol-foam-cherry.html',
-            'flag' => '',
-        ],
-    ]
+//    'coles' => [
+//        [
+//            'name' => 'NAN stage 2',
+//            'path' => 'http://192.168.33.15:8115/nan-stage-2.html',
+//            'flag' => '',
+//        ],
+//        [
+//            'name' => 'dettol foam',
+//            'path' => 'http://192.168.33.15:8115/dettol-foam-cherry.html',
+//            'flag' => '',
+//        ],
+//    ]
 
 ];
